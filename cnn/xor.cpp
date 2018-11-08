@@ -5,7 +5,7 @@
 #include "tensor_t.h"
 #include "fc_layer_t.h"
 
-#define EPOCHS_NUM 40000
+#define EPOCHS_NUM 4000
 
 struct case_t
 {
@@ -61,7 +61,6 @@ void train ( std::vector<fc_layer_t*>& layers, std::vector<case_t> cases ) // FI
       }
 
       std::cout << layers.back()->out(0) << std::endl;
-      
 
       // backpropagation
       tensor_t<float> grads = layers.back()->out - expected;
@@ -75,28 +74,7 @@ void train ( std::vector<fc_layer_t*>& layers, std::vector<case_t> cases ) // FI
         }
       }
 
-      /*
-      // FIXME
-      for ( uint_t i = 0; i < layers.size(); i++ )
-      {
-        layers[i]->update_weights();
-      }
-      */
-
-      //FIXME ???
-      /*
-      float err = 0;
-      for ( uint_t i = 0; i < grads.size.x * grads.size.y * grads.size.z; i++ )
-      {
-        float f = expected.data[i];
-        if ( f > 0.5 )
-          err += abs(grads.data[i]);
-      }
-      std::cout << "error : " << err * 100 << std::endl;
-      */
-
     } // cases loop
-
   } // epochs loop
 
   layers.back()->print_weights();

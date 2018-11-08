@@ -94,14 +94,14 @@ struct fc_layer_t {
     return sig(x);
   }
 
-/*
+  /*
   float activator_derivative( float x )
   {
     //float t = tanhf( x );
     //return 1 - t * t;
     return sig( x ) * ( 1 - sig( x ) ); // (sig)' = sig * (1 - sig)
   }
-*/
+  */
 
   void activate( const tensor_t<float>& _in )
   {
@@ -159,20 +159,8 @@ struct fc_layer_t {
         dE_dIn( n ) += deltas( m ) * weights( m, n ); // to be used in the previous layer
       }
     }
-
-    /*
-    for ( uint_t i = 0; i < in.size.x; i++ ) {
-      for ( uint_t j = 0; j < in.size.y; j++ ) {
-        for ( uint_t k = 0; k < in.size.z; k++ ) {
-          int n = map( { i, j, k } );
-        }
-      }
-    }
-    */
-
     
   }
-
 
 };
 
