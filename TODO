@@ -1,5 +1,15 @@
-- add fully connected layer
-- add fully connected multilayer network for XOR calculation
-____________________________________________________________
+- add momentum to the learning algorithm
+- add RMSE error
+- test on different logic functions
+- test fully connected NN on MNIST
+
+- add convolutional and pulling layers
+- add convolutional NN MNIST example
+
+- try ReLU
 
 - use operations with matrices and vectors (weights)
+____________________________________________________________
+
++ add fully connected multilayer network for XOR calculation
++ add fully connected layer

@@ -5,8 +5,7 @@
 #include "tensor_t.h"
 #include "fc_layer_t.h"
 
-// #define EPOCHS_NUM 4000
-#define EPOCHS_NUM 10000
+#define EPOCHS_NUM 40000
 
 struct case_t
 {
