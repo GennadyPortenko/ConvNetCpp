@@ -1,0 +1,10 @@
+*.[od]
+*.swp
+*.swo
+*.bin
+*.out
+*.found
+*.test
+*.core
+*.stackdump
+*.exe
