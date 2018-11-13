@@ -14,6 +14,7 @@ struct fc_layer_t {
   tensor_t<float> weights;
   tensor_t<float> prev_updates;
   tensor_t<float> biases;
+  tensor_t<float> prev_bias_updates;
   std::vector<float> sum;
   tensor_t<float> dE_dIn; // partial derivative of network error by n-th layer input
 
@@ -23,6 +24,7 @@ struct fc_layer_t {
     weights( _out_size, _in_size.x * _in_size.y * _in_size.z ),
     prev_updates( _out_size, _in_size.x * _in_size.y * _in_size.z ),
     biases( _out_size ),
+    prev_bias_updates( _out_size ),
     sum( _out_size ),
     dE_dIn( _in_size.x * _in_size.y * _in_size.z )
   {
@@ -62,6 +64,7 @@ struct fc_layer_t {
         // init_weight_rand_small( weights( i, j ), in.size.x * in.size.y * in.size.z ) ;
         init_weight_rand( weights( i, j ) ) ;
         prev_updates( i, j ) = 0;
+        prev_bias_updates( i ) = 0;
       }
     }
   }
@@ -147,17 +150,18 @@ struct fc_layer_t {
     }
 
     // weights update
-    for ( uint_t n = 0; n < in.get_size(); n++ ) {
-      for ( uint_t m = 0; m < out.get_size(); m++ ) {
-        // FIXME
-        
-        weights( m, n ) -= deltas( m ) * in( n );
-        // biases( m ) -= 
-        /*
+    for ( uint_t m = 0; m < out.get_size(); m++ ) {
+      float bias_update = deltas( m ) *  LEARNING_RATE + MOMENTUM * prev_bias_updates( m );
+      biases( m ) -= bias_update;
+      prev_bias_updates( m ) = bias_update;
+      for ( uint_t n = 0; n < in.get_size(); n++ ) {
         float update = deltas( m ) * in( n ) * LEARNING_RATE + MOMENTUM * prev_updates( m, n );
         weights( m, n ) -= update;
         prev_updates( m, n ) = update;
-        */
+
+        // or ...
+        // weights( m, n ) -= deltas( m ) * in( n );
+        // biases( m ) -= deltas( m ); // ( deltas( m ) * 1 )
       }
     }
 
