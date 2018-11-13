@@ -5,7 +5,7 @@
 #include "tensor_t.h"
 #include "fc_layer_t.h"
 
-#define EPOCHS_NUM 10000
+#define EPOCHS_NUM 5000
 
 struct case_t
 {
@@ -38,14 +38,13 @@ void train ( std::vector<fc_layer_t*>& layers, std::vector<case_t> cases ) // FI
 
   for (uint_t i = 0; i < EPOCHS_NUM; i++) {
 
-    std::cout << std::endl << "EPOCH " << i << std::endl << std::endl;
+    std::cout << std::endl << std::endl << "EPOCH " << i << std::endl;
 
     for ( uint_t j = 0; j < cases.size(); j++ ) {
 
-      std::cout << std::endl << "case " << j << std::endl;
-      std::cout << "_______" << std::endl;
+      std::cout << std::endl << "case " << j << "  ";
 
-      std::cout << cases[j].data(0) << ", " << cases[j].data(1) << "->" << cases[j].out(0) << " | ";
+      std::cout << "( " << cases[j].data(0) << ", " << cases[j].data(1) << " ) ->" << cases[j].out(0) << " | ";
 
       struct tensor_t<float> expected = cases[j].out;
 
@@ -76,9 +75,6 @@ void train ( std::vector<fc_layer_t*>& layers, std::vector<case_t> cases ) // FI
 
     } // cases loop
   } // epochs loop
-
-  layers.back()->print_weights();
-
 }
 
 int main()
@@ -91,11 +87,6 @@ int main()
 
   std::vector<case_t> cases;
   add_cases(cases);
-
-  std::cout << "layer 1 weights : " << std::endl;
-  nn.at(0)->print_weights();
-  std::cout << "layer 2 weights : " << std::endl;
-  nn.at(1)->print_weights();
 
   train( nn, cases );
 
