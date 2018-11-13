@@ -5,7 +5,7 @@
 #include "tensor_t.h"
 #include "fc_layer_t.h"
 
-#define EPOCHS_NUM 4000
+#define EPOCHS_NUM 10000
 
 struct case_t
 {
@@ -84,8 +84,8 @@ void train ( std::vector<fc_layer_t*>& layers, std::vector<case_t> cases ) // FI
 int main()
 {
   std::vector<fc_layer_t*> nn;
-  fc_layer_t* layer1 = new fc_layer_t( tsize_t( 2, 1, 1 ), 2);
-  fc_layer_t* layer2 = new fc_layer_t( tsize_t( 2, 1, 1 ), 1);
+  fc_layer_t* layer1 = new fc_layer_t( tsize_t( 2, 1, 1 ), 5);
+  fc_layer_t* layer2 = new fc_layer_t( tsize_t( 5, 1, 1 ), 1);
   nn.push_back(layer1);
   nn.push_back(layer2);
 

@@ -1,7 +1,10 @@
 - add momentum to the learning algorithm
+- update biases in optimization algorithm
 - add RMSE error
 - test on different logic functions
 - test fully connected NN on MNIST
+- remove sum vector
+- remove copying input vector activating a layer
 
 - add convolutional and pulling layers
 - add convolutional NN MNIST example

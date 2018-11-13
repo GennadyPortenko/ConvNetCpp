@@ -12,6 +12,7 @@ struct fc_layer_t {
   tensor_t<float> in;
   tensor_t<float> out;
   tensor_t<float> weights;
+  tensor_t<float> prev_updates;
   tensor_t<float> biases;
   std::vector<float> sum;
   tensor_t<float> dE_dIn; // partial derivative of network error by n-th layer input
@@ -20,6 +21,7 @@ struct fc_layer_t {
     in( _in_size.x, _in_size.y, _in_size.z ),
     out( _out_size ),
     weights( _out_size, _in_size.x * _in_size.y * _in_size.z ),
+    prev_updates( _out_size, _in_size.x * _in_size.y * _in_size.z ),
     biases( _out_size ),
     sum( _out_size ),
     dE_dIn( _in_size.x * _in_size.y * _in_size.z )
@@ -40,12 +42,16 @@ struct fc_layer_t {
 
   void init_weight_rand(float& weight) {
     // random values -1..1
+    //
+    weight = float(rand()) / (float(RAND_MAX) + 1.0);
+    /*
     int evn = rand() % 2;
     if (evn == 0) {
       weight = float(rand()) / (float(RAND_MAX) + 1.0);
     } else {
       weight = -1 * float(rand()) / (float(RAND_MAX) + 1.0);
     }
+    */
   }
 
   void init_weights() {
@@ -53,8 +59,9 @@ struct fc_layer_t {
     for ( uint_t i = 0 ; i < out.size.x; i++ ) {
       init_weight_rand( biases( i ) );
       for ( uint_t j = 0 ; j < ( in.get_size() ); j++ ) {
-        // init_weight_rand_small( weights(i, j, 0), in.size.x * in.size.y * in.size.z ) ;
+        // init_weight_rand_small( weights( i, j ), in.size.x * in.size.y * in.size.z ) ;
         init_weight_rand( weights( i, j ) ) ;
+        prev_updates( i, j ) = 0;
       }
     }
   }
@@ -131,11 +138,6 @@ struct fc_layer_t {
     }
   }
 
-  void update_weight( float& weight )
-  {
-    
-  }
-
   void update( tensor_t<float>& dE_dIn_next)
   {
     // calculation of deltas vector
@@ -148,7 +150,14 @@ struct fc_layer_t {
     for ( uint_t n = 0; n < in.get_size(); n++ ) {
       for ( uint_t m = 0; m < out.get_size(); m++ ) {
         // FIXME
-        weights( m, n ) -= deltas( m ) * in( n ) ;
+        
+        weights( m, n ) -= deltas( m ) * in( n );
+        // biases( m ) -= 
+        /*
+        float update = deltas( m ) * in( n ) * LEARNING_RATE + MOMENTUM * prev_updates( m, n );
+        weights( m, n ) -= update;
+        prev_updates( m, n ) = update;
+        */
       }
     }
 

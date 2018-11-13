@@ -3,7 +3,11 @@
 
 #include "gradient_t.h"
 
-#define LEARNING_RATE 0.01
+// #define LEARNING_RATE 0.01
+// #define MOMENTUM 0.6
+// #define WEIGHT_DECAY 0.001
+
+#define LEARNING_RATE 0.5
 #define MOMENTUM 0.6
 #define WEIGHT_DECAY 0.001
 
